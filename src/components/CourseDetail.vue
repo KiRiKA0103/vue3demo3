@@ -36,10 +36,10 @@ const bookingDescriptions = computed(() => (booking:Booking) => {
 </script>
 <template>
     <el-descriptions column="2">
-        <el-descriptions-item label="课程名称：">{{ course.cname }}</el-descriptions-item>
-        <el-descriptions-item label="实验课时：">{{ course.duration }}</el-descriptions-item>
+        <el-descriptions-item width="50" label="课程名称：">{{ course.cname }}</el-descriptions-item>
+        <el-descriptions-item width="50" label="实验课时：">{{ course.duration }}</el-descriptions-item>
     </el-descriptions>
-    <el-descriptions column="1">
+    <el-descriptions column="2">
         <el-descriptions-item label="已预约：" v-for="booking in courseDetailBookings()">{{ bookingDescriptions(booking) }}</el-descriptions-item>
     </el-descriptions>
 </template>
