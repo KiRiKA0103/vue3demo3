@@ -33,7 +33,7 @@ export const loginService = async (user: { username: string; password: string })
 
   sessionStorage.setItem('teacher', JSON.stringify(teacherS.value))
 
-  router.push({ path: '/home' })
+  router.push({ path: '/' })
 }
 
 export const listCourses = async (tid: number) => {

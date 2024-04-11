@@ -6,7 +6,7 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      path: '/home',
+      path: '/',
       component: () => import('@/views/HomeView.vue'),
       children: [
         {
@@ -26,7 +26,7 @@ const router = createRouter({
         },
         {
           path: '',
-          redirect:'/home/teacher'
+          redirect:'/teacher'
         }
       ]
     },

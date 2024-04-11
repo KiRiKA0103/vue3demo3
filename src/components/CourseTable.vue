@@ -20,7 +20,7 @@ onMounted(async () => {
 const showBooking = async (course: Course) => {
   useCourse.courseS.value = course
   // useGlobal.bookingDrawer.value = true
-  router.push({path:'/home/booking'})
+  router.push({path:'/booking'})
 }
 
 </script>

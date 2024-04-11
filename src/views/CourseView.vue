@@ -66,7 +66,6 @@
 import { defineAsyncComponent } from 'vue'
 const AddCourse = defineAsyncComponent(() => import('@/components/AddCourse.vue'))
 const CourseTable = defineAsyncComponent(() => import('@/components/CourseTable.vue'))
-const BookingDrawer = defineAsyncComponent(()=>import('@/components/BookingDrawer.vue'))
 </script>
 
 <!-- <script lang="ts" setup>

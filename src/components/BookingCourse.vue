@@ -33,6 +33,7 @@ watch(selected, async () => {
 
 // 显示选择周数的对话框
 const showWeekSelectDialog = (time: number) => {
+    console.log(time)
     timeR.value = time
     weekR.value = classroomR.value?.bookings?.find((booking) => booking.time == time && booking.course?.cid == courseR.value?.cid)?.week ?? []
     useGlobal.weekSelectDialog.value = true
@@ -43,15 +44,17 @@ const getBookings = (time: number) => {
     timeR.value = time
     return classroomR.value?.bookings?.filter((booking) => booking.time == time)
 }
+
 </script>
 <template>
     <CourseDetail />
-    <el-select v-model="selected" placeholder="选择教室" size="default" style="width: 240px">
+    选择教室:
+    <el-select v-model="selected" placeholder="选择教室" size="default" style="width: 80px">
         <el-option v-for="item in classrooms" :key="item.classname" :label="item.classname" :value="item.classname" />
     </el-select>
     <el-card v-show="classroomR != null">
         <div style="width: 100%">
-            <div style="float: left; height: 60px; width: 14%; border: 1px solid #000; box-sizing: border-box"
+            <div style="float: left; height: 30px; width: 14%; border: 1px solid #000;border-bottom: none; box-sizing: border-box"
                 v-for="item in ['周一', '周二', '周三', '周四', '周五', '周六', '周日']">
                 {{ item }}
             </div>
@@ -61,9 +64,9 @@ const getBookings = (time: number) => {
                 style="position: relative;font-size: 12px;float: left;height: 150px;width: 14%;border: 1px solid #000;box-sizing: border-box;"
                 v-for="time in 28">
                 <template v-for="booking in getBookings(time)">
-                    {{ booking.course?.cname }}
+                    课程:{{ booking.course?.cname }}
                     <br />
-                    {{ booking.week }}
+                    周次:{{ booking.week }}
                     <hr />
                 </template>
                 <el-button @click="showWeekSelectDialog(time)" size="small"
@@ -72,6 +75,8 @@ const getBookings = (time: number) => {
                 </el-button>
             </div>
         </div>
+
+        
     </el-card>
     <WeekSelectDialog />
 </template>

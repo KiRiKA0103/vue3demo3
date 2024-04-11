@@ -8,7 +8,7 @@ import {
     <el-row>
         <el-col :span="4">
             <el-menu class="el-menu-vertical-demo">
-                <RouterLink to="/home/teacher">
+                <RouterLink to="/teacher">
                     <el-menu-item>
                         <el-icon>
                             <user />
@@ -16,7 +16,7 @@ import {
                         <span>教师主页</span>
                     </el-menu-item>
                 </RouterLink>
-                <RouterLink to="/home/course">
+                <RouterLink to="/course">
                     <el-menu-item>
                         <el-icon>
                             <setting />
