@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import type { Course, Booking } from '@/type/Type'
+import type { Booking } from '@/type/Type'
 import { useClassroomStore } from '@/store/classroomStore'
 import { useCourseStore } from '@/store/courseStore'
 
@@ -35,11 +35,11 @@ const bookingDescriptions = computed(() => (booking: Booking) => {
 
 </script>
 <template>
-    <el-descriptions column="2">
+    <el-descriptions :column="2">
         <el-descriptions-item width="50" label="课程名称：">{{ course.cname }}</el-descriptions-item>
         <el-descriptions-item width="50" label="实验课时：">{{ course.duration }}</el-descriptions-item>
     </el-descriptions>
-    <el-descriptions column="4">
+    <el-descriptions :column="4">
         <el-descriptions-item label="已预约：" v-for="booking in courseDetailBookings()">
         {{ bookingDescriptions(booking) }}</el-descriptions-item>
     </el-descriptions>

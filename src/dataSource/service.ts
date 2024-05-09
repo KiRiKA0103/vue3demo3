@@ -1,6 +1,7 @@
 import type { Course, Teacher, Classroom } from "@/type/Type"
-import { useGet, usePost } from "@/fetch"
 import { useGlobalStore } from "@/store/globalStore"
+import { useCourseStore } from '@/store/courseStore'
+import { listClassrooms, listCourses, listTeachers } from '@/dataSource/data'
 import router from "@/router"
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { Action } from 'element-plus'
@@ -22,37 +23,37 @@ export const openMessageBox = (message: string) => {
 
 
 export const loginService = async (user: { username: string; password: string }) => {
-  const resp = await usePost<{ teacher: Teacher }>('login', user)
-
-  const token = resp.response.value?.headers.get('token')
+  // const resp = await usePost<{ teacher: Teacher }>('login', user)
+  const teacher = listTeachers().find(teacher => teacher.username == user.username && teacher.password == user.password)
+  if (!teacher) {
+    openMessageBox('账号密码错误')
+  }
+  const token = teacher?.username + 'abcg1234qwerqawsed';
   token && sessionStorage.setItem('token', token)
-
   const teacherS = useGlobalStore().teacherS
-
-  resp.data.value?.data.teacher && (teacherS.value = resp.data.value?.data.teacher)
-
+  teacher && (teacherS.value = teacher)
   sessionStorage.setItem('teacher', JSON.stringify(teacherS.value))
-
   router.push({ path: '/' })
 }
 
-export const listCourses = async (tid: number) => {
-  const resp = await useGet<{ courses: Course[] }>(`teacher/${tid}/courses`)
-  // console.log(resp.data.value?.data.courses)
+export const listCoursesService = async (tid: number) => {
+  //const resp = await useGet<{ courses: Course[] }>(`teacher/${tid}/courses`)
+  const courses: Course[] = listCourses().filter(course => course.tid == tid)
 
-  return resp.data.value?.data.courses ?? []
+  return courses ?? []
 }
 
-export const listClassrooms = async () => {
+export const listClassroomsService = async () => {
+  //const resp = await useGet<{ classrooms: Classroom[] }>('classrooms')
+  const classrooms: Classroom[] = listClassrooms()
 
-  const resp = await useGet<{ classrooms: Classroom[] }>('classrooms')
-
-  return resp.data.value?.data.classrooms ?? []
+  return classrooms ?? []
 }
 
 
-export const createCourse = async (course: Course) => {
-  const resp = await usePost<{}>('course/add', course)
-
-  return resp.data.value?.message
+export const createCourseService = async (course: Course) => {
+  //const resp = await usePost<{}>('course/add', course)
+  course.cid = useCourseStore().courses.value.sort((a, b) => b.cid! - a.cid!)[0].cid! + 1
+  useCourseStore().courses.value.unshift(course)
+  return '创建成功'
 }

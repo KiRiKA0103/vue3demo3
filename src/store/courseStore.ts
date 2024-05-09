@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { createGlobalState } from "@vueuse/core"
 import type { Course, Teacher } from "@/type/Type"
-import { openMessageBox, createCourse } from "@/dataSource/service"
+import { openMessageBox, createCourseService } from "@/dataSource/service"
 
 
 export const useCourseStore = createGlobalState(() => {
@@ -27,8 +27,10 @@ export const useCourseStore = createGlobalState(() => {
     const teacher: Teacher = JSON.parse(sessionStorage.getItem('teacher') ?? '')
     courseForm.value.tid = teacher.tid
 
-    const message = await createCourse(courseForm.value)
+    const message = await createCourseService(courseForm.value)
     message && openMessageBox(message)
+
+    courseForm.value = {}
   }
 
   const delCourse = async (cid:number) => {

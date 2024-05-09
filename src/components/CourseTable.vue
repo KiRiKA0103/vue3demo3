@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import router from "@/router"
 import type { Course } from '@/type/Type'
-import { listCourses } from '@/dataSource/service'
+import { listCoursesService } from '@/dataSource/service'
 import { useCourseStore } from '@/store/courseStore'
 import { useGlobalStore } from '@/store/globalStore'
 
@@ -13,7 +13,7 @@ const courses = useCourse.courses
 
 onMounted(async () => {
   if (courses.value.length <= 0) {
-    courses.value = await listCourses(10001)
+    courses.value = await listCoursesService(10001)
   }
 })
 

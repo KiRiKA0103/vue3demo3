@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { openMessageBox } from '@/dataSource/service'
 import { useGlobalStore } from '@/store/globalStore'
 import { useClassroomStore } from '@/store/classroomStore'
@@ -28,11 +28,12 @@ const saveBooking = () => {
     if (weekR.value.length <= 0) {
         return
     }
+
     classroomR.value?.bookings?.push({
         classname: classroomR.value.classname,
-        course: courseR.value,
-        week: weekR.value.sort((a, b) => a - b),
-        time: timeR.value
+        course: toRaw(courseR.value),
+        week: toRaw(weekR.value.sort((a, b) => a - b)),
+        time: toRaw(timeR.value)
     })
 
     console.log('next')
@@ -62,20 +63,28 @@ const checkDuration = () => {
 }
 
 const checkWeek = computed(() => (week: number) => {
-    // console.log(currentClassroom.value)
-    if (classroomR.value?.bookings?.find((booking) => booking.time == timeR.value)?.week?.includes(week)) {
-        if (classroomR.value?.bookings?.find((booking) => booking.course?.cid == courseR.value?.cid && booking.time == timeR.value)) {
-            return false
+    console.log(week, timeR.value)
+
+    let result = false
+
+    classroomR.value?.bookings?.forEach(booking => {
+        if (booking.time == timeR.value) {
+            if (booking.week?.includes(week)) {
+                if (booking.course?.cid == courseR.value?.cid && booking.time == timeR.value) {
+                    return false
+                }
+                result = true
+            }
         }
-        return true
-    }
-    return false
+    })
+
+    return result
 })
 
 
 </script>
 <template>
-    <el-dialog v-model="useGlobal.weekSelectDialog.value" title="选择周数" width="500" center>
+    <el-dialog v-model="useGlobal.weekSelectDialog.value" title="选择周次" width="500" center>
         <el-select v-model="weekR" multiple collapse-tags placeholder="未选择" style="width: 240px">
             <el-option v-for="week in 18" :key="week" :label="week" :value="week" :disabled="checkWeek(week)" />
         </el-select>
